@@ -11,7 +11,7 @@ assert.callback("get HashLinkSSI from SignedHashLinkSSI test", (callback) => {
     const hashLink = "HASH_LINK";
     const timestampAndSignature = "TIMESTAMP_AND_SIGNATURE";
 
-    signedHashLinkSSI.initialize(domain, hashLink, timestampAndSignature, "v0", "hint");
+    signedHashLinkSSI.initialize(domain, hashLink, timestampAndSignature, "v0");
     const hashLinkSSI = signedHashLinkSSI.derive();
 
     assert.equal(SSITypes.HASH_LINK_SSI, hashLinkSSI.getTypeName());

@@ -8,7 +8,7 @@ const SeedSSI = require("../../lib/KeySSIs/SeedSSIs/SeedSSI");
 assert.callback("SeedSSI and SReadSSI use the same encryption key test", (callback) => {
 
     const seedSSI = SeedSSI.createSeedSSI();
-    seedSSI.initialize("domain", undefined, undefined, "v0", "hint", (err) => {
+    seedSSI.initialize("domain", undefined, undefined, "v0", (err) => {
         if (err) {
             throw err;
         }
