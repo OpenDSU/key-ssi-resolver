@@ -32,6 +32,7 @@ module.exports = {
     CryptoAlgorithmsRegistry: require('./lib/CryptoAlgorithms/CryptoAlgorithmsRegistry'),
     CryptoFunctionTypes: require('./lib/CryptoAlgorithms/CryptoFunctionTypes'),
     SSITypes: require("./lib/KeySSIs/SSITypes"),
+    SSIFamilies: require("./lib/KeySSIs/SSIFamilies"),
     DSUFactory: require("./lib/DSUFactoryRegistry"),
     KeySSIMixin: require('./lib/KeySSIs/KeySSIMixin'),
     CryptoAlgorithmsMixin: require('./lib/CryptoAlgorithms/CryptoAlgorithmsMixin')
