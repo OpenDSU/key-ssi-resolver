@@ -41,4 +41,4 @@ assert.callback("All actions are executed without conflicts test", async (testFi
     }
 
     testFinished();
-}, 500000000);
+}, 5000);
