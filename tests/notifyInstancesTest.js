@@ -37,4 +37,4 @@ assert.callback("Notify Instances Test", async (testFinished) => {
     }
 
     testFinished();
-}, 500000000);
+}, 5000);
