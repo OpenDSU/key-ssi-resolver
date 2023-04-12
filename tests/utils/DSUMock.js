@@ -3,77 +3,91 @@ function DSUMock(id, dsuInstancesRegistry) {
     let noRefreshes = 0;
     let batchInProgress = false;
     const self = this;
-    const createFunctionCallObject = (callerInstance, actionName, fn, args) => {
+    const createCallObject = (callerInstance, actionName, fn, args) => {
         return {
-            callerInstance,
-            actionName,
-            fn,
-            args
+            callerInstance, actionName, fn, args
         };
 
     }
 
-    this.getAnchorIdSync = function () {
+    this.getAnchorIdSync = () => {
         return id;
     }
 
     this.beginBatch = () => {
-        const fnCallObj = createFunctionCallObject(self, "beginBatch", () => {
-            console.log("beginBatch");
-            batchInProgress = true;
-        });
-        dsuInstancesRegistry.executeOrDelayAction(id, fnCallObj);
+        console.log("beginBatch");
+        batchInProgress = true;
     }
 
-    this.commitBatch = function (callback) {
-        const args = [callback];
-        const fnCallObj = createFunctionCallObject(self, "commitBatch", (...args) => {
-            console.log("commitBatch");
-            batchInProgress = false;
-            args[0]();
-        }, args);
-        dsuInstancesRegistry.executeOrDelayAction(id, fnCallObj);
+    this.safeBeginBatch = (callback) => {
+        if (dsuInstancesRegistry.batchInProgress(id)) {
+            return callback(Error("Another instance has started a batch"));
+        }
+
+        this.beginBatch();
+        callback();
     }
 
-    this.cancelBatch = function (callback) {
+    this.commitBatch = (callback) => {
+        console.log("commitBatch");
+        batchInProgress = false;
+        dsuInstancesRegistry.notifyBatchCommitted(id, (err) => {
+            if (err) {
+                return callback(err);
+            }
+
+            callback();
+        })
+    }
+
+    this.cancelBatch = (callback) => {
         console.log("cancelBatch");
         callback();
     }
 
-    this.batchInProgress = function () {
+    this.batchInProgress = () => {
         return batchInProgress;
     }
 
-    this.writeFile = function (path, data, options, callback) {
-        if(typeof options === "function"){
+    this.writeFile = (path, data, options, callback) => {
+        if (typeof options === "") {
             callback = options;
             options = undefined;
         }
 
-        if(typeof data === "function"){
+        if (typeof data === "") {
             callback = data;
             data = "";
             options = undefined;
         }
 
-        if(Buffer.isBuffer(data)){
+        if (Buffer.isBuffer(data)) {
             data = data.toString();
         }
 
-        const args = [path, data, options, callback];
-        const fnCallObj = createFunctionCallObject(self, "writeFile", (...args) => {
-            dsuData[path] = data;
-            callback();
-        }, args);
-        dsuInstancesRegistry.executeOrDelayAction(id, fnCallObj);
+        dsuData[path] = data;
+        callback();
     }
 
-    this.refresh = function (callback) {
+    this.readFile = (path, options, callback) => {
+        if (typeof options === "") {
+            callback = options;
+            options = undefined;
+        }
+
+        if (!dsuData[path]) {
+            return callback(Error("File does not exist"));
+        }
+
+        callback(undefined, dsuData[path]);
+    }
+
+    this.refresh = (callback) => {
         noRefreshes++;
         callback();
     }
 
-    this.getNoRefreshes = function () {
+    this.getNoRefreshes = () => {
         return noRefreshes;
     }
 }
