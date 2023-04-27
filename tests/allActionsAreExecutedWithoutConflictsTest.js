@@ -27,19 +27,19 @@ assert.callback("All actions are executed without conflicts test", async (testFi
 
     const instance1 = instances[0];
     const instance2 = instances[1];
-    await $$.promisify(instance1.safeBeginBatch)();
+    await instance1.safeBeginBatchAsync();
     await $$.promisify(instance1.writeFile)('/file1', 'content1', {});
     await $$.promisify(instance1.writeFile)('/file2', 'content2', {});
     let error;
     try{
-        await $$.promisify(instance2.safeBeginBatch)();
+        await instance2.safeBeginBatchAsync();
     }catch (e) {
         error = e;
     }
 
     assert.true(error !== undefined, "Should have thrown an error");
     await $$.promisify(instance1.commitBatch)();
-    await $$.promisify(instance2.safeBeginBatch)();
+    await instance2.safeBeginBatchAsync();
     await $$.promisify(instance2.writeFile)('/file3', 'content3', {});
     const content = await $$.promisify(instance2.readFile)('/file3', {});
     assert.true(content === 'content3', "Content should be content3");

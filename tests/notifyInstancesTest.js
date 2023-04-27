@@ -26,10 +26,10 @@ assert.callback("Notify Instances Test", async (testFinished) => {
     }
 
     const instance1 = instances[0];
-    instance1.beginBatch();
+    await instance1.safeBeginBatchAsync();
     await $$.promisify(instance1.writeFile)('/file1', 'content1', {});
     await $$.promisify(instance1.writeFile)('/file2', 'content2', {});
-    await $$.promisify(instance1.commitBatch)();
+    await instance1.commitBatchAsync();
 
     for(let i = 0; i < NO_OF_INSTANCES; i++) {
         const instance = instances[i];

@@ -28,6 +28,13 @@ function DSUMock(id, dsuInstancesRegistry) {
         callback();
     }
 
+    this.safeBeginBatchAsync = async () => {
+        if (dsuInstancesRegistry.batchInProgress(id)) {
+            throw Error("Another instance has started a batch");
+        }
+        this.beginBatch();
+    }
+
     this.commitBatch = (callback) => {
         console.log("commitBatch");
         batchInProgress = false;
@@ -40,9 +47,18 @@ function DSUMock(id, dsuInstancesRegistry) {
         })
     }
 
+    this.commitBatchAsync = async () => {
+        await $$.promisify(dsuInstancesRegistry.notifyBatchCommitted)(id);
+        batchInProgress = false;
+    }
+
     this.cancelBatch = (callback) => {
         console.log("cancelBatch");
         callback();
+    }
+
+    this.cancelBatchAsync = async () => {
+        console.log("cancelBatch");
     }
 
     this.batchInProgress = () => {
