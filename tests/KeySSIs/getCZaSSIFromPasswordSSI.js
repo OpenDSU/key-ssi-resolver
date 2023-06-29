@@ -1,4 +1,4 @@
-require("../../../../psknode/bundles/testsRuntime");
+require("../../../../builds/output/testsRuntime");
 const assert = require("double-check").assert;
 const PasswordSSI = require("../../lib/KeySSIs/ConstSSIs/PasswordSSI");
 const ConstSSI = require("../../lib/KeySSIs/ConstSSIs/ConstSSI");
