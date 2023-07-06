@@ -19,7 +19,7 @@ function DSUMock(id, dsuInstancesRegistry) {
         batchInProgress = true;
     }
 
-    this.safeBeginBatch = (callback) => {
+    this.safeBeginBatch = (wait, callback) => {
         if (dsuInstancesRegistry.batchInProgress(id)) {
             return callback(Error("Another instance has started a batch"));
         }
@@ -28,7 +28,7 @@ function DSUMock(id, dsuInstancesRegistry) {
         callback();
     }
 
-    this.safeBeginBatchAsync = async () => {
+    this.safeBeginBatchAsync = async (wait) => {
         if (dsuInstancesRegistry.batchInProgress(id)) {
             throw Error("Another instance has started a batch");
         }
