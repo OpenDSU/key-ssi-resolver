@@ -12,7 +12,7 @@ assert.callback("Notify Instances Test", async (testFinished) => {
             option: {},
         },
     };
-    await tir.launchConfigurableApiHubTestNodeAsync({domains: [{name: "vault", config: vaultDomainConfig}]});
+    await tir.launchConfigurableApiHubTestNodeAsync({domains: [{name: "vault", config: vaultDomainConfig}], rootFolder: folder});
     const DSUMock = require('./utils/DSUMock');
     const RaceConditionPreventer = require('../lib/utils/RaceConditionPreventer');
     const raceConditionPreventer = new RaceConditionPreventer();
