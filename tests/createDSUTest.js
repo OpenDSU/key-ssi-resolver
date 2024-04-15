@@ -30,7 +30,7 @@ function runTest(callback) {
                     assert.true(typeof err === 'undefined', 'No error while listing files');
                     assert.true(files.length === 0, 'Created folder is empty');
 
-                    dsu.writeFile('/something/something/darkside/my-file.txt', 'Lorem Ipsum', (err, hash) => {
+                    dsu.writeFile('/something/something/darkside/my-file.txt', 'Lorem Ipsum', (err) => {
                         assert.true(typeof err === 'undefined', 'DSU is writable');
 
                         dsu.readFile('/something/something/darkside/my-file.txt', (err, data) => {

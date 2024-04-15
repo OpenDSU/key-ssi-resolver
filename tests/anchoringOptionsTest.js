@@ -36,7 +36,7 @@ function runTest(callback) {
              * @param {Error|*} conflictInfo.error The error which occurred while trying to merge the un-anchored changes into the latest valid brickmap
              * @param {callback} callback
              */
-            conflictResolutionFn: (brickMapController, conflictInfo, callback) => {
+            conflictResolutionFn: () => {
                 // This function must use the conflictInfo object to fix 
                 // the merging conflicts, apply the new changes from the pendingAnchoringDiffs and newDiffs and update the valid bar map and the dirty bar map clone
                 // using the brickMapController, then call the callback to resume the anchoring process

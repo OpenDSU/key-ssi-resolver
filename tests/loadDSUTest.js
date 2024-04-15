@@ -24,9 +24,9 @@ function createDSU(callback) {
         assert.true(typeof err === 'undefined', 'No error while creating the DSU');
         assert.true(dsu.constructor.name === 'Archive', 'DSU has the correct class');
 
-        dsu.createFolder('/created-folder', (err) => {
-            dsu.writeFile('my-file.txt', 'Lorem Ipsum', (err, hash) => {
-                dsu.writeFile('/created-folder/my-second-file.txt', 'Iorem Lpsum', (err, hash) => {
+        dsu.createFolder('/created-folder', () => {
+            dsu.writeFile('my-file.txt', 'Lorem Ipsum', () => {
+                dsu.writeFile('/created-folder/my-second-file.txt', 'Iorem Lpsum', () => {
                     dsu.getKeySSIAsString((err, keySSI) => {
                         callback(err, keySSI);
                     })

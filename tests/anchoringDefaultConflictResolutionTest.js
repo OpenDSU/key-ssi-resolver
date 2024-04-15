@@ -30,7 +30,7 @@ function runTest(callback) {
 }
 
 function writeAndReadTest(dsu, callback) {
-    dsu.writeFile(FILE_PATH, FILE_CONTENT, (err, hash) => {
+    dsu.writeFile(FILE_PATH, FILE_CONTENT, (err) => {
         assert.true(typeof err === 'undefined', 'DSU is writable');
 
         dsu.readFile(FILE_PATH, (err, data) => {

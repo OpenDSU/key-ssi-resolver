@@ -12,7 +12,11 @@ assert.callback("Notify Instances Test", async (testFinished) => {
             option: {},
         },
     };
-    await tir.launchConfigurableApiHubTestNodeAsync({domains: [{name: "vault", config: vaultDomainConfig}], rootFolder: folder});
+    const folder = await $$.promisify(dc.createTestFolder)("DSU_Batch_Test");
+    await tir.launchConfigurableApiHubTestNodeAsync({
+        domains: [{name: "vault", config: vaultDomainConfig}],
+        rootFolder: folder
+    });
     const DSUMock = require('./utils/DSUMock');
     const RaceConditionPreventer = require('../lib/utils/RaceConditionPreventer');
     const raceConditionPreventer = new RaceConditionPreventer();
@@ -31,7 +35,7 @@ assert.callback("Notify Instances Test", async (testFinished) => {
     await $$.promisify(instance1.writeFile)('/file2', 'content2', {});
     await instance1.commitBatchAsync();
 
-    for(let i = 0; i < NO_OF_INSTANCES; i++) {
+    for (let i = 0; i < NO_OF_INSTANCES; i++) {
         const instance = instances[i];
         assert.true(instance.getNoRefreshes() === 1, `Instance ${i} should have been refreshed once, but it was refreshed ${instance.getNoRefreshes()} times`);
     }

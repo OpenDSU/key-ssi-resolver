@@ -79,7 +79,7 @@ function runTest(callback) {
 }
 
 function assertFileWasWritten(dsu, filename, data, callback) {
-    dsu.writeFile(filename, data, (err, hash) => {
+    dsu.writeFile(filename, data, (err) => {
         assert.true(typeof err === 'undefined', 'DSU is writable');
 
         dsu.readFile(filename, (err, dt) => {
@@ -93,7 +93,7 @@ function assertFileWasWritten(dsu, filename, data, callback) {
 
 function assertChangesWereNotAnchored(keySSI, callback) {
     resolver.loadDSU(keySSI, (err, dsu) => {
-        dsu.readFile('/file3.txt', (err, data) => {
+        dsu.readFile('/file3.txt', (err) => {
             assert.true(typeof err !== 'undefined', "File wasn't written yet");
             callback();
         })

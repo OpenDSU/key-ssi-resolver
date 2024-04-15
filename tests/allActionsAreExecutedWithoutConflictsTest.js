@@ -12,7 +12,11 @@ assert.callback("All actions are executed without conflicts test", async (testFi
             option: {},
         },
     };
-    await tir.launchConfigurableApiHubTestNodeAsync({domains: [{name: "vault", config: vaultDomainConfig}], rootFolder: folder});
+    const folder = await $$.promisify(dc.createTestFolder)("DSU_Batch_Test");
+    await tir.launchConfigurableApiHubTestNodeAsync({
+        domains: [{name: "vault", config: vaultDomainConfig}],
+        rootFolder: folder
+    });
     const DSUMock = require('./utils/DSUMock');
     const RaceConditionPreventer = require('../lib/utils/RaceConditionPreventer');
     const raceConditionPreventer = new RaceConditionPreventer();
@@ -31,9 +35,9 @@ assert.callback("All actions are executed without conflicts test", async (testFi
     await $$.promisify(instance1.writeFile)('/file1', 'content1', {});
     await $$.promisify(instance1.writeFile)('/file2', 'content2', {});
     let error;
-    try{
+    try {
         await instance2.safeBeginBatchAsync();
-    }catch (e) {
+    } catch (e) {
         error = e;
     }
 
@@ -45,7 +49,7 @@ assert.callback("All actions are executed without conflicts test", async (testFi
     assert.true(content === 'content3', "Content should be content3");
     await $$.promisify(instance2.commitBatch)();
 
-    for(let i = 0; i < NO_OF_INSTANCES; i++) {
+    for (let i = 0; i < NO_OF_INSTANCES; i++) {
         const instance = instances[i];
         assert.true(instance.getNoRefreshes() === 2, `Instance ${i} should have been refreshed once, but it was refreshed ${instance.getNoRefreshes()} times`);
     }
