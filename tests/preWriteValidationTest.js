@@ -7,7 +7,10 @@ const assert = dc.assert;
 let resolver;
 let keySSISpace;
 
-testUtils.resolverFactory({testFolder: 'prewrite_validation_test', testName: 'PreWrite Validation Test'}, (err, result) => {
+testUtils.resolverFactory({
+    testFolder: 'prewrite_validation_test',
+    testName: 'PreWrite Validation Test'
+}, (err, result) => {
     assert.true(err === null || typeof err === 'undefined', 'Failed to initialize test');
 
     resolver = result.resolver;

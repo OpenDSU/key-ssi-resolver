@@ -6,7 +6,10 @@ const assert = dc.assert;
 let resolver;
 let keySSISpace;
 
-testUtils.resolverFactory({testFolder: 'anchoring_ev_listener_test', testName: 'Anchoring Event Listener Test'}, (err, result) => {
+testUtils.resolverFactory({
+    testFolder: 'anchoring_ev_listener_test',
+    testName: 'Anchoring Event Listener Test'
+}, (err, result) => {
     assert.true(err === null || typeof err === 'undefined', 'Failed to initialize test');
 
     resolver = result.resolver;

@@ -7,12 +7,15 @@ let resolver;
 let keySSISpace;
 
 const FILE_PATH = '/something/something/darkside/my-file.txt';
-const FILE_CONTENT =  'Lorem Ipsum';
+const FILE_CONTENT = 'Lorem Ipsum';
 
 const SECOND_FILE_PATH = '/my-second-file.txt';
 const SECOND_FILE_CONTENT = 'Ipsum Lorem';
 
-testUtils.resolverFactory({testFolder: 'anchoring_default_conflict_resolution_test', testName: 'Anchoring default conflict resolution test'}, (err, result) => {
+testUtils.resolverFactory({
+    testFolder: 'anchoring_default_conflict_resolution_test',
+    testName: 'Anchoring default conflict resolution test'
+}, (err, result) => {
     assert.true(err === null || typeof err === 'undefined', 'Failed to initialize test');
 
     resolver = result.resolver;

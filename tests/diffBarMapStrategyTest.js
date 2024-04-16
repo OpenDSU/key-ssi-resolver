@@ -7,9 +7,12 @@ let resolver;
 let keySSISpace;
 
 const FILE_PATH = '/something/something/darkside/my-file.txt';
-const FILE_CONTENT =  'Lorem Ipsum';
+const FILE_CONTENT = 'Lorem Ipsum';
 
-testUtils.resolverFactory({testFolder: 'diff_brickmap_strategy_test', testName: 'Diff BrickMapStrategy test'}, (err, result) => {
+testUtils.resolverFactory({
+    testFolder: 'diff_brickmap_strategy_test',
+    testName: 'Diff BrickMapStrategy test'
+}, (err, result) => {
     assert.true(err === null || typeof err === 'undefined', 'Failed to initialize test');
     resolver = result.resolver;
     keySSISpace = result.keySSISpace;

@@ -16,7 +16,7 @@ function initialize(options) {
     const brickMapStrategyFactory = new BrickMapStrategyFactory();
     const keySSIFactory = require('./lib/KeySSIs/KeySSIFactory');
 
-    options.dsuFactory =  new DSUFactory({
+    options.dsuFactory = new DSUFactory({
         brickMapStrategyFactory,
         keySSIFactory
     });
