@@ -2,13 +2,6 @@ function DSUMock(id, dsuInstancesRegistry) {
     const dsuData = {};
     let noRefreshes = 0;
     let batchInProgress = false;
-    const self = this;
-    const createCallObject = (callerInstance, actionName, fn, args) => {
-        return {
-            callerInstance, actionName, fn, args
-        };
-
-    }
 
     this.getAnchorIdSync = () => {
         return id;
@@ -28,7 +21,7 @@ function DSUMock(id, dsuInstancesRegistry) {
         callback();
     }
 
-    this.safeBeginBatchAsync = async (wait) => {
+    this.safeBeginBatchAsync = async () => {
         if (dsuInstancesRegistry.batchInProgress(id)) {
             throw Error("Another instance has started a batch");
         }
@@ -66,15 +59,13 @@ function DSUMock(id, dsuInstancesRegistry) {
     }
 
     this.writeFile = (path, data, options, callback) => {
-        if (typeof options === "") {
+        if (typeof options === "function") {
             callback = options;
-            options = undefined;
         }
 
-        if (typeof data === "") {
+        if (typeof data === "function") {
             callback = data;
             data = "";
-            options = undefined;
         }
 
         if (Buffer.isBuffer(data)) {
@@ -86,9 +77,8 @@ function DSUMock(id, dsuInstancesRegistry) {
     }
 
     this.readFile = (path, options, callback) => {
-        if (typeof options === "") {
+        if (typeof options === "function") {
             callback = options;
-            options = undefined;
         }
 
         if (!dsuData[path]) {
